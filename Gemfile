@@ -43,3 +43,13 @@ end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+gem 'devise'
+gem "api-versions", "~> 1.0"
+
+#social login
+gem 'fb_graph'
+
+#settings
+gem 'settingslogic'
+
+gem 'inherited_resources'
