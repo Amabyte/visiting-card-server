@@ -5,6 +5,7 @@ class VisitingCardTemplate < ActiveRecord::Base
   validates_presence_of :name, :design
   has_attached_file :sample, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :path => ":rails_root/public/system/vct/:id/:style/:attachment.:extension",:url => "/system/vct/:id/:style/:attachment.:extension"
   validates_attachment_content_type :sample, :content_type => /\Aimage\/.*\Z/
+  validates_attachment_presence :sample
   has_attached_file :bg_image, :path => ":rails_root/public/system/vct/:id/:attachment.:extension",:url => "/system/vct/:id/:attachment.:extension"
   validates_attachment_content_type :bg_image, :content_type => /\Aimage\/.*\Z/
 

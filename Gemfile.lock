@@ -80,6 +80,8 @@ GEM
       tzinfo
     formtastic (2.3.0.rc3)
       actionpack (>= 3.0)
+    haml (4.0.5)
+      tilt
     has_scope (0.6.0.rc)
       actionpack (>= 3.2, < 5)
       activesupport (>= 3.2, < 5)
@@ -194,6 +196,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   devise
   fb_graph
+  haml
   jbuilder (~> 1.2)
   jquery-rails
   paperclip

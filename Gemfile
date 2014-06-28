@@ -45,6 +45,7 @@ end
 # gem 'debugger', group: [:development, :test]
 gem 'devise'
 gem "api-versions"
+gem 'haml'
 
 #social login
 gem 'fb_graph'

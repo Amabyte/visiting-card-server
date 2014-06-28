@@ -6,10 +6,11 @@ ActiveAdmin.register VisitingCardTemplate do
       f.input :name
       f.input :design
       f.input :bg_image, :required => false, :as => :file
-      f.input :sample, :required => false, :as => :file
+      f.input :sample, :required => true, :as => :file
     end
     f.actions
   end
+
   show do |vct|
     attributes_table do
       row :name
@@ -22,6 +23,7 @@ ActiveAdmin.register VisitingCardTemplate do
       end
     end
   end
+
   index do
     selectable_column
     id_column
@@ -33,4 +35,5 @@ ActiveAdmin.register VisitingCardTemplate do
     column :updated_at
     actions
   end
+
 end
