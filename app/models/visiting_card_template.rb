@@ -63,11 +63,7 @@ class VisitingCardTemplate < ActiveRecord::Base
   end
 
   def sample_urls
-    if sample.present?
-      {original: sample.url, thumb: sample.url(:thumb), medium: sample.url(:medium)}
-    else
-      {original: nil, thumb: nil, medium: nil}
-    end
+    {original: sample.url, thumb: sample.url(:thumb), medium: sample.url(:medium)}
   end
 
   def as_json(options = {})
