@@ -67,7 +67,7 @@ class VisitingCardTemplate < ActiveRecord::Base
   end
 
   def as_json(options = {})
-    super({only: [:name, :sample], :methods => [:sample_urls, :keys_and_types]}.merge(options))
+    super({only: [:id, :name], :methods => [:sample_urls, :keys_and_types]}.merge(options))
   end
 
   private
