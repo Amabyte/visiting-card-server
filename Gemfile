@@ -52,4 +52,6 @@ gem 'fb_graph'
 #settings
 gem 'settingslogic'
 
-gem 'inherited_resources'
+gem 'paperclip'
+gem 'activeadmin', github: 'gregbell/active_admin'
+gem 'rmagick'

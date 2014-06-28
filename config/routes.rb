@@ -1,5 +1,7 @@
 
 VisitingCardServer::Application.routes.draw do
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
   api vendor_string: "visiting-card", default_version: 1 do
     version 1 do
       cache as: 'v1' do
@@ -15,4 +17,5 @@ VisitingCardServer::Application.routes.draw do
       end
     end
   end
+  root to: "admin/dashboard#index"
 end

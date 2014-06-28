@@ -1,8 +1,6 @@
-class Api::V1::UserAccountController < ApplicationController
+class Api::V1::UserAccountController < AppController
   before_action :authenticate_api_user!, except: [:social_login]
   require 'social_login'
-
-  respond_to :json
   
   def profile
     respond_with current_api_user
