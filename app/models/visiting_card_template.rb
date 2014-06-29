@@ -2,17 +2,20 @@ class VisitingCardTemplate < ActiveRecord::Base
   require 'RMagick'
   require 'rvg/misc'
   include Magick
-  validates_presence_of :name, :design
+  validates_presence_of :name, :design, :visiting_card
+  validate :key_uniqueness
   has_attached_file :sample, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :path => ":rails_root/public/system/vct/:id/:style/:attachment.:extension",:url => "/system/vct/:id/:style/:attachment.:extension"
   validates_attachment_content_type :sample, :content_type => /\Aimage\/.*\Z/
   validates_attachment_presence :sample
   has_attached_file :bg_image, :path => ":rails_root/public/system/vct/:id/:attachment.:extension",:url => "/system/vct/:id/:attachment.:extension"
   validates_attachment_content_type :bg_image, :content_type => /\Aimage\/.*\Z/
+  has_many :visiting_cards
 
   GRAVITY_NAMES = {northwest: NorthWestGravity, north: NorthGravity, northeast: NorthEastGravity, west: WestGravity, center: CenterGravity, east: EastGravity, southwest: SouthWestGravity, south: SouthGravity, southeast: SouthEastGravity}.freeze
 
   TYPE_BG = "background"
   TYPE_TEXT = "text"
+  TYPE_TEXT_AREA = "text_area"
   TYPE_IMAGE = "image"
 
   WIDTH = 512
@@ -26,7 +29,7 @@ class VisitingCardTemplate < ActiveRecord::Base
       case item["type"]
       when TYPE_BG
         prepare_background item
-      when TYPE_TEXT
+      when TYPE_TEXT, TYPE_TEXT_AREA
         prepare_text item
       when TYPE_IMAGE
         prepare_image item
@@ -70,11 +73,11 @@ class VisitingCardTemplate < ActiveRecord::Base
     super({only: [:id, :name], :methods => [:sample_urls, :keys_and_types]}.merge(options))
   end
 
-  private
-    def configs
-      @configs ||= JSON.parse(design)
-    end
+  def configs
+    @configs ||= JSON.parse(design)
+  end
 
+  private
     def prepare_background bg_config
       background_found = false
       @t_image = nil
@@ -93,9 +96,9 @@ class VisitingCardTemplate < ActiveRecord::Base
     end
 
     def prepare_text text_config
-      if @options[text_config["key"].to_sym]
+      if @options[text_config["key"]]
         if text_config["width"] && text_config["height"] && text_config["x"] && text_config["y"]
-          Draw.new.annotate(@t_image, text_config["width"], text_config["height"], text_config["x"], text_config["y"], @options[text_config["key"].to_sym]) do
+          Draw.new.annotate(@t_image, text_config["width"], text_config["height"], text_config["x"], text_config["y"], @options[text_config["key"]]) do
               font_config = text_config["font"]
               if font_config
                 self.font_family = font_config["family"] if font_config["family"]
@@ -125,9 +128,9 @@ class VisitingCardTemplate < ActiveRecord::Base
     end
 
     def prepare_image image_config
-      if @options[image_config["key"].to_sym]
+      if @options[image_config["key"]]
         if (image_config["x"] && image_config["y"]) || image_config["gravity"]
-          c_image = Image.read(@options[image_config["key"].to_sym]).first
+          c_image = Image.read(@options[image_config["key"]]).first
           if image_config["resize"]
             c_image = c_image.resize_to_fit(image_config["resize"]["width"], image_config["resize"]["height"])
           end
@@ -141,6 +144,12 @@ class VisitingCardTemplate < ActiveRecord::Base
         else
           raise(ArgumentError, "'x' and 'y' or 'gravity' required for #{image_config["key"]}")
         end
+      end
+    end
+
+    def key_uniqueness
+      if configs.uniq{|x| x["key"]}.length != configs.length
+        errors[:design] << 'duplicate keys are not allowed'
       end
     end
 end

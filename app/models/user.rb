@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   validates_presence_of :name, :email
   validates :email, :uniqueness => true, format: {with: Settings.regx_email }
   has_many :user_social_accounts, dependent: :destroy
+  has_many :visiting_cards, dependent: :destroy
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
