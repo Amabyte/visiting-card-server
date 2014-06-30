@@ -14,13 +14,10 @@ VisitingCardServer::Application.routes.draw do
           end
         end
         resources :visiting_card_templates, only: [:index, :show]
-        resources :visiting_cards do
-          member do
-            get "/download/:style/:attachment.:extension", to: :download_image
-          end
-        end
+        resources :visiting_cards
       end
     end
   end
+  get "/downloads/vc/:id/:style/:attachment.:extension", to: "api/v1/visiting_cards#download_image"
   root to: "admin/dashboard#index"
 end
