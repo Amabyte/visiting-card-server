@@ -2,7 +2,7 @@ class VisitingCardTemplate < ActiveRecord::Base
   require 'RMagick'
   require 'rvg/misc'
   include Magick
-  validates_presence_of :name, :design, :visiting_card
+  validates_presence_of :name, :design
   validate :key_uniqueness
   has_attached_file :sample, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :path => ":rails_root/public/system/vct/:id/:style/:attachment.:extension",:url => "/system/vct/:id/:style/:attachment.:extension"
   validates_attachment_content_type :sample, :content_type => /\Aimage\/.*\Z/
