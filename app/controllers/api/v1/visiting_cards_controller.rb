@@ -24,7 +24,7 @@ class Api::V1::VisitingCardsController < AppController
   end
 
   def download_image
-    send_file member.image.path(params[:style]), type: member.image.content_type, disposition: 'inline'
+    send_file member.image.path(params[:style]), type: member.image.content_type
   end
 
   private
