@@ -1,6 +1,6 @@
 class VisitingCard < ActiveRecord::Base
   validates_presence_of :user_id, :visiting_card_template_id
-  has_attached_file :image, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :path => ":rails_root/data/images/vc/:id/:style/:attachment.:extension",:url => "/:style/:attachment.:extension"
+  has_attached_file :image, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :path => ":rails_root/data/images/vc/:id/:style/:attachment.:extension",:url => "/download/:style/:attachment.:extension"
   validates_attachment_content_type :image, :content_type => /\Aimage\/.*\Z/
   belongs_to :user
   has_many :visiting_card_datas, dependent: :destroy, inverse_of: :visiting_card

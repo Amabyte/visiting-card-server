@@ -16,7 +16,7 @@ VisitingCardServer::Application.routes.draw do
         resources :visiting_card_templates, only: [:index, :show]
         resources :visiting_cards do
           member do
-            get "/:style/:attachment.:extension", to: :download_image
+            get "/download/:style/:attachment.:extension", to: :download_image
           end
         end
       end
