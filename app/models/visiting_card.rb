@@ -32,7 +32,7 @@ class VisitingCard < ActiveRecord::Base
   end
 
   def as_json(options = {})
-    super({except: [:image_file_name, :image_content_type, :image_file_size, :image_updated_at], :methods => [:image_url]}.merge(options))
+    super({except: [:image_file_name, :image_content_type, :image_file_size, :image_updated_at], :methods => [:image_url, :visiting_card_datas]}.merge(options))
   end
 
   private
