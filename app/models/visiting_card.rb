@@ -20,6 +20,7 @@ class VisitingCard < ActiveRecord::Base
           hash[vcd.key] = vcd.value
         end
       end
+      raise "visiting card template not found." unless visiting_card_template
       visiting_card_template.prepare hash
       self.image = File.open(visiting_card_template.image_file_path)
     rescue => e
