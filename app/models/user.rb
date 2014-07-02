@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   validates :email, :uniqueness => true, format: {with: Settings.regx_email }
   has_many :user_social_accounts, dependent: :destroy
   has_many :visiting_cards, dependent: :destroy
+  has_and_belongs_to_many :friends_visiting_cards, class_name: "VisitingCard", association_foreign_key: "fvc_id"
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
