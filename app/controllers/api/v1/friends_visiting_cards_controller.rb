@@ -2,7 +2,7 @@ class Api::V1::FriendsVisitingCardsController < AppController
   before_action :authenticate_api_user!
   
   def index
-    respond_with collection.page(params[:page]).per(params[:limit])
+    respond_with paginate(collection)
   end
 
   def show

@@ -4,4 +4,8 @@ class ApplicationController < ActionController::Base
   respond_to :json, :html
 
   skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
+
+  def paginate collection
+    collection.page(params[:page]).per(params[:limit])
+  end
 end

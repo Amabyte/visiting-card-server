@@ -2,7 +2,7 @@ class Api::V1::VisitingCardTemplatesController < AppController
   before_action :authenticate_api_user!
   
   def index
-    respond_with VisitingCardTemplate.page(params[:page]).per(params[:limit])
+    respond_with paginate(VisitingCardTemplate)
   end
 
   def show
