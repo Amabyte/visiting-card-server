@@ -1,6 +1,5 @@
 class Api::V1::VisitingCardsController < AppController
   before_action :authenticate_api_user!
-  before_action :member, only: [:show, :update, :destroy]
   
   def index
     respond_with collection
@@ -15,7 +14,7 @@ class Api::V1::VisitingCardsController < AppController
   end
 
   def create
-    @visiting_card = current_api_user.visiting_cards.build visiting_card_params
+    @visiting_card = collection.build visiting_card_params
     if @visiting_card.save
       respond_with @visiting_card, status: :created, location: '/'
     else

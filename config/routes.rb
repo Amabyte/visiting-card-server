@@ -15,6 +15,7 @@ VisitingCardServer::Application.routes.draw do
         end
         resources :visiting_card_templates, only: [:index, :show]
         resources :visiting_cards
+        resources :friends_visiting_cards
       end
     end
   end
