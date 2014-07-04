@@ -7,7 +7,7 @@ class Api::V1::UserAccountController < AppController
   end
   
   def social_login
-    if (params[:provider].present? && params[:token].present?)
+    if (params[:provider].present? && params[:token].present? && params[:device_id].present? && params[:device_type].present?)
       social_user = SocialLogin.get_social_user params
       if social_user[:error].nil? && social_user[:email].present? && social_user[:uuid] && social_user[:provider].present?
         user = User.find_by_email social_user[:email]
@@ -29,6 +29,9 @@ class Api::V1::UserAccountController < AppController
           social_account.user = user
           social_account.save
           sign_in user
+          user.devices.where(device_id: params[:device_id]).destroy_all
+          user.devices.build({session_id: session.id, device_id: params[:device_id], device_type: params[:device_type]})
+          user.save
           response_json = {}
           response_json[:is_new_user] = is_new_user
           response_json[:user] = user
