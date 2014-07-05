@@ -4,6 +4,10 @@ class VisitingCardRequest < ActiveRecord::Base
   belongs_to :to_user, class_name: "User"
   after_create :notify_to_user
 
+  def as_json(options = {})
+    super({except: [:user_id, :to_user_id], :methods => [:user, :to_user]}.merge(options))
+  end
+
   private
     def notify_to_user
       push = {title: "#{user.name} is requesting your visiting card", type: "vc_request", id: id}
