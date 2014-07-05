@@ -26,6 +26,24 @@ class Api::V1::VisitingCardsController < AppController
     send_file member.image.path(params[:style]), type: member.image.content_type
   end
 
+  def share
+    if params[:email].present?
+      user = User.find_by_email params[:email]
+      if user
+        if user != member.user
+          user.friends_visiting_cards << member
+          render json: {message: "Visiting card successfully shared"}
+        else
+          render json: {errors: ["Can't share visiting card your self"]}, status: :method_not_allowed
+        end
+      else
+        render nothing: true, status: :not_found
+      end
+    else
+      render json: {errors: [I18n.t("errors.params_missing")]}, status: :bad_request
+    end
+  end
+
   private
     def collection
       @visiting_cards ||= current_api_user.visiting_cards

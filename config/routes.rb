@@ -14,7 +14,11 @@ VisitingCardServer::Application.routes.draw do
           end
         end
         resources :visiting_card_templates, only: [:index, :show]
-        resources :visiting_cards
+        resources :visiting_cards do
+          member do
+            post :share
+          end
+        end
         resources :friends_visiting_cards
       end
     end
