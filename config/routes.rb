@@ -27,7 +27,7 @@ VisitingCardServer::Application.routes.draw do
               scope ":id" do
                 get "/", to: :my_show
                 post "/accept", to: :accept
-                delete "/ignore", to: :ignore
+                delete "/decline", to: :decline
               end
             end
           end

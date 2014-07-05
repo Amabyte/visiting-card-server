@@ -47,6 +47,7 @@ class Api::V1::VisitingCardRequestsController < AppController
     if params[:visiting_card_id].present?
       vc = current_api_user.visiting_cards.find params[:visiting_card_id]
       my_member.user.friends_visiting_cards << vc
+      PushNotification.send(Device.device_ids(my_member.user), {title: "#{my_member.to_user.name} has shared visiting card with you", type: "vc_accept"})
       my_member.destroy
       render json: {message: "Visiting card successfully accepted"}
     else
@@ -54,7 +55,8 @@ class Api::V1::VisitingCardRequestsController < AppController
     end
   end
 
-  def ignore
+  def decline
+    PushNotification.send(Device.device_ids(my_member.user), {title: "#{my_member.to_user.name} has declined to share the visiting card", type: "vc_decline"})
     respond_with my_collection.destroy my_member
   end
 

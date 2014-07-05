@@ -9,5 +9,9 @@ class Device < ActiveRecord::Base
     [ANDROID, IOS]
   end
 
+  def self.device_ids user
+    user.devices.map(&:device_id)
+  end
+
   validates_inclusion_of :device_type, :in => device_types, :message => "should be either '#{ANDROID}' or '#{IOS}'"
 end

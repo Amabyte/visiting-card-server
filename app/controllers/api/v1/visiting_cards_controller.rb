@@ -32,6 +32,7 @@ class Api::V1::VisitingCardsController < AppController
       if user
         if user != current_api_user
           user.friends_visiting_cards << member
+          PushNotification.send(Device.device_ids(user), {title: "#{current_api_user.name} has shared visiting card with you", type: "vc_shared"})
           render json: {message: "Visiting card successfully shared"}
         else
           render json: {errors: ["Can't share visiting card your self"]}, status: :method_not_allowed
