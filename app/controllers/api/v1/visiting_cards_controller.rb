@@ -30,7 +30,7 @@ class Api::V1::VisitingCardsController < AppController
     if params[:email].present?
       user = User.find_by_email params[:email]
       if user
-        if user != member.user
+        if user != current_api_user
           user.friends_visiting_cards << member
           render json: {message: "Visiting card successfully shared"}
         else

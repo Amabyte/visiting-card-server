@@ -19,7 +19,19 @@ VisitingCardServer::Application.routes.draw do
             post :share
           end
         end
-        resources :friends_visiting_cards
+        resources :friends_visiting_cards, only: [:index, :show, :destroy]
+        resources :visiting_card_requests, only: [:index, :show, :create, :destroy] do
+          collection do
+            scope :my do
+              get "/", to: :my_index
+              scope ":id" do
+                get "/", to: :my_show
+                post "/accept", to: :accept
+                delete "/ignore", to: :ignore
+              end
+            end
+          end
+        end
       end
     end
   end

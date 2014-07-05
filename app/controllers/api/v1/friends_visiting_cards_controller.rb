@@ -10,7 +10,7 @@ class Api::V1::FriendsVisitingCardsController < AppController
   end
 
   def destroy
-    respond_with current_api_user.friends_visiting_cards.destroy member
+    respond_with collection.destroy member
   end
 
   private

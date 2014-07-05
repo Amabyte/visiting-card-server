@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
   has_many :visiting_cards, dependent: :destroy
   has_many :devices, dependent: :destroy
   has_and_belongs_to_many :friends_visiting_cards, -> { uniq }, class_name: "VisitingCard", association_foreign_key: "fvc_id"
+  has_many :visiting_card_requests
+  has_many :my_visiting_card_requests, class_name: "VisitingCardRequest", foreign_key: "to_user_id"
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
