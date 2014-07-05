@@ -4,7 +4,7 @@ class VisitingCard < ActiveRecord::Base
   validates_attachment_content_type :image, :content_type => /\Aimage\/.*\Z/
   belongs_to :user
   has_many :visiting_card_datas, dependent: :destroy, inverse_of: :visiting_card
-  has_and_belongs_to_many :users, foreign_key: "fvc_id"
+  has_and_belongs_to_many :users, -> { uniq }, foreign_key: "fvc_id"
   accepts_nested_attributes_for :visiting_card_datas
   belongs_to :visiting_card_template
   before_save :prepare
