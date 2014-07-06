@@ -55,7 +55,7 @@ class Api::V1::VisitingCardsController < AppController
     end
 
     def visiting_card_params
-      params.permit(:visiting_card_template_id, visiting_card_datas_attributes: [:key, :value, :image])
+      params.require(:visiting_card).permit(:visiting_card_template_id, visiting_card_datas_attributes: [:key, :value, :image])
     end
 
 end
