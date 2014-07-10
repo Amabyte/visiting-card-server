@@ -23,6 +23,7 @@ class Api::V1::VisitingCardsController < AppController
   end
 
   def download_image
+    @visiting_card = current_api_user.visiting_cards.find_by_id(params[:id]) || current_api_user.friends_visiting_cards.find_by_id(params[:id])
     send_file member.image.path(params[:style]), type: member.image.content_type
   end
 
