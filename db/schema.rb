@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140705113222) do
+ActiveRecord::Schema.define(version: 20140802180105) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -110,8 +110,8 @@ ActiveRecord::Schema.define(version: 20140705113222) do
   end
 
   create_table "visiting_card_templates", force: true do |t|
-    t.string   "name",                  null: false
-    t.text     "design",                null: false
+    t.string   "name",                                  null: false
+    t.text     "design",                                null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "sample_file_name"
@@ -122,6 +122,7 @@ ActiveRecord::Schema.define(version: 20140705113222) do
     t.string   "bg_image_content_type"
     t.integer  "bg_image_file_size"
     t.datetime "bg_image_updated_at"
+    t.boolean  "active",                default: false, null: false
   end
 
   create_table "visiting_cards", force: true do |t|

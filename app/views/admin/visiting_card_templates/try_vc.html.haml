@@ -1,0 +1,23 @@
+#main_content_wrapper
+  #main_content
+    %center
+      =image_tag "/generated.jpg?#{Time.now}", alt: "File not generated"
+    %form#new_visiting_card_template.formtastic.visiting_card_template{action: try_vc_admin_visiting_card_template_path}
+      %fieldset.inputs
+        %ol
+          -@kts.each_with_index do |tk, i|
+            -unless tk[:type] == VisitingCardTemplate::TYPE_BG
+              %li
+                %label.label=tk[:key]
+                -if tk[:type] == VisitingCardTemplate::TYPE_TEXT
+                  %input{name: "data[]", type: "text", value: @data[i]}
+                -elsif tk[:type] == VisitingCardTemplate::TYPE_TEXT_AREA
+                  %textarea{name: "data[]", type: "text", rows: "5"}=@data[i]
+                -elsif tk[:type] == VisitingCardTemplate::TYPE_IMAGE
+                  %input{name: "data[]", type: "file"}
+      %fieldset.actions
+        %ol
+          %li.action.input_action
+            %input{name: "commit", type: "submit", value: "Try VC"}
+          %li.cancel
+            %a{href: admin_visiting_card_template_path(@vct.id)} Cancel
