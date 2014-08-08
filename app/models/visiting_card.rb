@@ -8,6 +8,7 @@ class VisitingCard < ActiveRecord::Base
   accepts_nested_attributes_for :visiting_card_datas
   belongs_to :visiting_card_template
   before_save :prepare
+  after_create :prepare
 
   validate :must_have_at_least_one_vcd
 
@@ -15,8 +16,8 @@ class VisitingCard < ActiveRecord::Base
     begin
       hash = {}
       visiting_card_datas.each do |vcd|
-        if vcd.image.present?
-          hash[vcd.key] = vcd.image.path
+        if vcd.value == "vcimagevc"
+          hash[vcd.key] = vcd.image.path if vcd.image.present?
         else
           hash[vcd.key] = vcd.value
         end
@@ -26,6 +27,7 @@ class VisitingCard < ActiveRecord::Base
       self.image = File.open(visiting_card_template.image_file_path)
     rescue => e
       errors[:image] << e.message
+      return false
     end
   end
 
