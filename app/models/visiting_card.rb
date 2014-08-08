@@ -7,17 +7,18 @@ class VisitingCard < ActiveRecord::Base
   has_and_belongs_to_many :users, -> { uniq }, foreign_key: "fvc_id"
   accepts_nested_attributes_for :visiting_card_datas
   belongs_to :visiting_card_template
-  before_save :prepare
-  after_create :prepare
+  before_create :prepare
+  after_create :prepare_update
+  before_update :prepare_update
 
   validate :must_have_at_least_one_vcd
 
-  def prepare
+  def prepare is_image = false
     begin
       hash = {}
       visiting_card_datas.each do |vcd|
         if vcd.value == "vcimagevc"
-          hash[vcd.key] = vcd.image.path if vcd.image.present?
+          hash[vcd.key] = vcd.image.path if vcd.image.present? and is_image
         else
           hash[vcd.key] = vcd.value
         end
@@ -29,6 +30,10 @@ class VisitingCard < ActiveRecord::Base
       errors[:image] << e.message
       return false
     end
+  end
+
+  def prepare_update
+    prepare true
   end
 
   def image_url
