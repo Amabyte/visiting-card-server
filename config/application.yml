@@ -1,0 +1,13 @@
+defaults: &defaults
+  regx_email: !ruby/regexp /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/
+  hash_secret: "visiting_card_hash_secret"
+  gcm_api_key: "gcm_api_key"
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults
